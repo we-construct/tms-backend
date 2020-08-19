@@ -9,7 +9,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use("/", invitationRouter);
+app.use("/accept-initation", invitationRouter);
 
 app.listen(port, () => {
   console.log("Server run on port " + port);

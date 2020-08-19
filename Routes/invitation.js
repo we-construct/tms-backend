@@ -1,14 +1,9 @@
 const bcrypt = require("bcryptjs");
 const router = require("express").Router();
-const pgp = require("pg-promise")(/*options*/);
+const db = require('../Helpers/connectDb');
 require("dotenv").config();
 
-const { PG_USER, PG_HOST, PG_PASSWORD, PG_PORT, PG_DB } = process.env;
-const db = pgp(
-  `${PG_USER}://${PG_USER}:${PG_PASSWORD}@${PG_HOST}:${PG_PORT}/${PG_DB}`
-);
-
-router.route("/accept-initation").post(async (req, res) => {
+router.route("/").post(async (req, res) => {
   try {
     const {
       first_name,
@@ -36,7 +31,7 @@ router.route("/accept-initation").post(async (req, res) => {
       `insert into users 
       (first_name, last_name, password, phone_number, email, role_id, status_id, position_id, created_by_id, created_at) 
       values 
-      ('${first_name}', '${last_name}', '${passwordHash}', '${phone_number}', 'vaarsenyan@gmail.com', 1, 1, 1, 1, to_timestamp(${Date.now()} / 1000.0))
+      ('${first_name}', '${last_name}', '${passwordHash}', '${phone_number}', 'test@gmail.com', 1, 1, 1, 1, to_timestamp(${Date.now()} / 1000.0))
       `
     );
 
