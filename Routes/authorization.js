@@ -1,6 +1,5 @@
 const bcrypt = require("bcryptjs");
 const router = require("express").Router();
-const pgp = require("pg-promise")(/*options*/);
 const db = require('../Helpers/connectDb');
 require("dotenv").config();
 
