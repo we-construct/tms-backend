@@ -5,36 +5,28 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 router.post("/", async (req, res, next) => {
-  const {
-    email,
-    role_id,
-    status_id,
-    position_id,
-    created_by_id,
-  } = await req.body;
+  const { email, roleId, statusId, positionId, createdById } = await req.body;
   // token will expire after one day
-  const token_expiry = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+  const tokenExpiry = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
 
-  const position_name = await db.one(
-    `select name from positions where id = ${position_id}`
+  const position = await db.one(
+    `select name from positions where id = ${positionId}`
   );
-  const role_name = await db.one(
-    `select name from roles where id = ${role_id}`
-  );
+  const role = await db.one(`select name from roles where id = ${roleId}`);
   // using token to encrypt user data
   const token = jwt.sign(
-    { email, role_id, status_id, position_id, created_by_id, token_expiry },
+    { email, roleId, statusId, positionId, createdById, tokenExpiry },
     process.env.JWT_SECRET
   );
 
   //  sending email
   transport.sendMail(
-    mailOptions(req.body.email, token, position_name.name, role_name.name),
-    (email_err) => {
-      if (email_err) {
-        res.json(email_err);
+    mailOptions(email, token, position.name, role.name),
+    (emailErr) => {
+      if (emailErr) {
+        res.json(emailErr);
       } else {
-        res.json({ message: "New team member invited" });
+        res.json("New team member invited");
       }
     }
   );
