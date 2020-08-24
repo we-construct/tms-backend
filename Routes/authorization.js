@@ -1,12 +1,12 @@
 const bcrypt = require("bcryptjs");
 const router = require("express").Router();
 const db = require("../Helpers/connectDb");
+const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 router.route("/").post(async (req, res) => {
   try {
-    const { email, password } = req.body;
-
+    const { email, password } = await req.body;
     if (!email || !password) return res.json("Enter all fields");
 
     const user = await db.one(`select * from users where email = '${email}'`);
@@ -17,6 +17,10 @@ router.route("/").post(async (req, res) => {
     if (user.status_id === 3) return res.json("This account is disabled :(");
 
     // if everything is ok
+    accessToken = jwt.sign({ id: user.id, role: user.role_id, status: user.status_id }, process.env.JWT_SECRET);
+    const tokenExpiry = new Date(new Date() + 24 * 60 * 60 * 1000);
+    //Fixme not working 
+    res.cookie('access_token', accessToken, { domain: 'localhost', path: '/', expires: new Date(Date.now() + 9000000), httpOnly: false, secure: false,});
     res.json({
       id: user.id,
       firstName: user.first_name,
@@ -27,6 +31,8 @@ router.route("/").post(async (req, res) => {
       statusId: user.status_id,
       positionId: user.position_id,
       createdAt: user.created_at,
+      accessToken,
+      tokenExpiry,
     });
   } catch (error) {
     res.json("User is not found or wrong data");

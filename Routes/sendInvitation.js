@@ -2,9 +2,11 @@ const router = require("express").Router();
 const db = require("../Helpers/connectDb");
 const { mailOptions, transport } = require("../Helpers/mailOptions");
 const jwt = require("jsonwebtoken");
+const authenticateAdmin = require("../Middlewares/authenticateAdmin");
 require("dotenv").config();
 
-router.post("/", async (req, res, next) => {
+router.post("/", authenticateAdmin, async (req, res) => {
+  // if ok
   const { email, roleId, statusId, positionId, createdById } = await req.body;
   // token will expire after one day
   const tokenExpiry = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
