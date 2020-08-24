@@ -14,7 +14,6 @@ router.route("/").post(async (req, res) => {
       confirmPassword,
       token,
     } = req.body;
-
     if (token.length === 0) return res.json("Token not found");
     // decoding data in token
     const decodedData = jwt.decode(token, process.env.JWT_SECRET);
@@ -40,13 +39,13 @@ router.route("/").post(async (req, res) => {
       !password ||
       !confirmPassword
     )
-      return res.json({ error: "Enter all fields" });
+      return res.json("Enter all fields");
     if (password.length < 6)
-      return res.json({ error: "Password must be > 6 characters" });
+      return res.json("Password must be > 6 characters");
     if (password !== confirmPassword)
-      return res.json({ error: "Passwords not match" });
+      return res.json("Passwords not match");
     if (phoneNumber.length !== 12)
-      return res.json({ error: "Wrong phone number" });
+      return res.json("Wrong phone number");
 
     // email, roles, positions, status, createdById will be taken from the invitation token
     await db.query(
