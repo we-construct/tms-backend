@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const acceptInvitation = require("./Routes/acceptInvitation");
 const sendInvitation = require("./Routes/sendInvitation");
 const authorizationRouter = require("./Routes/authorization");
+const tokenAuthorizationRouter = require("./Routes/tokenAuthorization");
 const getAllData = require("./Routes/getAllData");
 const actionsWithUser = require("./Routes/actionsWithUser");
 const getPaginatedUsers = require("./Routes/getPaginatedUsers");
@@ -21,6 +22,7 @@ app.use("/action", actionsWithUser);
 app.use("/send-invitation", sendInvitation);
 app.use("/accept-initation", acceptInvitation);
 app.use("/login", authorizationRouter);
+app.use("/token", tokenAuthorizationRouter);
 app.use("/users", getPaginatedUsers);
 
 app.listen(port, () => {

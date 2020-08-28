@@ -17,7 +17,7 @@ router.route("/").post(async (req, res) => {
     if (user.status_id === 3) return res.json("This account is disabled :(");
 
     // if everything is ok
-    accessToken = jwt.sign({ id: user.id, role: user.role_id, status: user.status_id, email: user.email }, process.env.JWT_SECRET);
+    const accessToken = jwt.sign({ id: user.id, role: user.role_id, status: user.status_id, email: user.email }, process.env.JWT_SECRET);
     const tokenExpiry = new Date(new Date() + 24 * 60 * 60 * 1000);
     // set token to db
     db.query(`update users set token = '${accessToken}' where id = ${user.id}`);
