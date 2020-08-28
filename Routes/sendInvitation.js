@@ -28,7 +28,7 @@ router.post("/", authenticateAdmin, async (req, res) => {
       if (emailErr) {
         res.json(emailErr);
       } else {
-        res.json("New team member invited");
+        res.json({ message: "Invitation sended" });
       }
     }
   );

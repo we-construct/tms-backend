@@ -17,10 +17,10 @@ router.route("/").post(async (req, res) => {
     if (user.status_id === 3) return res.json("This account is disabled :(");
 
     // if everything is ok
-    accessToken = jwt.sign({ id: user.id, role: user.role_id, status: user.status_id }, process.env.JWT_SECRET);
+    accessToken = jwt.sign({ id: user.id, role: user.role_id, status: user.status_id, email: user.email }, process.env.JWT_SECRET);
     const tokenExpiry = new Date(new Date() + 24 * 60 * 60 * 1000);
-    //Fixme not working 
-    res.cookie('access_token', accessToken, { domain: 'localhost', path: '/', expires: new Date(Date.now() + 9000000), httpOnly: false, secure: false,});
+    // set token to db
+    db.query(`update users set token = '${accessToken}' where id = ${user.id}`);
     res.json({
       id: user.id,
       firstName: user.first_name,
