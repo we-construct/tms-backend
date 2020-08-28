@@ -30,7 +30,7 @@ router.route("/").post(async (req, res) => {
         tokenExpiry,
       });
     } catch (error) {
-      res.json(error.message);
+      res.json("No token set in cookies!");
     }
   });
   
