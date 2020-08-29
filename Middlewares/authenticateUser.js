@@ -3,7 +3,7 @@ require("dotenv").config();
 
 const authenticateUser = (req, res, next) => {
     try {
-        const accessToken = req.body.accessToken;
+        const accessToken = req.headers.authorization;
         const check = jwt.verify(accessToken, process.env.JWT_SECRET);
         // no token or not valid token
         if(check === null) return res.json('Token not found!');
