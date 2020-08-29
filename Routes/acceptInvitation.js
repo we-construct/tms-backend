@@ -14,7 +14,8 @@ router.route("/").post(async (req, res) => {
       confirmPassword,
       token,
     } = req.body;
-    if (token.length === 0) return res.json("Token not found");
+    // token checking
+
     // decoding data in token
     const decodedData = jwt.decode(token, process.env.JWT_SECRET);
     const {
@@ -23,15 +24,18 @@ router.route("/").post(async (req, res) => {
       statusId,
       positionId,
       createdById,
-      tokenExpiry,
     } = decodedData;
     if (decodedData === null) return res.json("Token error");
+
+    // check if this user invited or already registrated
+    const isTokenMatch = await db.one(`select id, token from invitations where email = '${email}'`);
+    if (isTokenMatch.token !== token) return res.json("Token not found/Already registrated");
+    
     // crypting password
     const salt = await bcrypt.genSalt(8);
     const passwordHash = await bcrypt.hash(password, salt);
 
-    // checking if token is expired?
-    if (new Date(tokenExpiry) < new Date()) return res.json("Link is expired");
+    // check fields
     if (
       !firstName ||
       !lastName ||
@@ -55,11 +59,11 @@ router.route("/").post(async (req, res) => {
       ('${firstName}', '${lastName}', '${passwordHash}', '${phoneNumber}', '${email}', ${roleId}, ${statusId}, ${positionId}, ${createdById}, to_timestamp(${Date.now()} / 1000.0))
       `
     );
-
+    await db.query(`update invitations set token = 'accepted', status = 'Accepted' where id = '${isTokenMatch.id}'`)
     // firstName, thank you for accepting invitation, pending: false
     res.json({ isAccepted: true, firstName });
   } catch (error) {
-    res.json("Something's wrong :(");
+    res.json(error.message);
   }
 });
 

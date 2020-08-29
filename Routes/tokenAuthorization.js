@@ -9,7 +9,6 @@ router.route("/").post(async (req, res) => {
       const data = jwt.verify(loginToken, process.env.JWT_SECRET);
       if (data === null) return res.json('Token error');
       const { id, email } = data;
-      console.log(email);
       // if everything is ok
       const user = await db.one(`select * from users where email = '${email}' and id = ${id}`);
       const accessToken = jwt.sign({ id: user.id, role: user.role_id, status: user.status_id, email: user.email }, process.env.JWT_SECRET);
