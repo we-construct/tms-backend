@@ -6,9 +6,7 @@ const authenticateAdmin = async (req, res, next) => {
   try {
     const accessToken = req.headers.authorization;
     const check = jwt.verify(accessToken, process.env.JWT_SECRET);
-    const tokenMatch = await db.one(
-      `select token from users where id = ${check.id}`
-      );
+    const tokenMatch = await db.one(`select token from users where id = ${check.id}`);
     // if no token or not valid token
     if (check === null) return res.json("Token not found!");
     // check if token is matching with token in db

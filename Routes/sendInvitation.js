@@ -20,7 +20,10 @@ router.post("/", authenticateAdmin, async (req, res) => {
     { email, roleId, statusId, positionId, createdById, tokenExpiry },
     process.env.JWT_SECRET
   );
-
+  // check is user already invited
+  const isInvited = await db.query(`select email from invitations where email = '${email}'`);
+  if (isInvited.length !== 0) return res.json('This user already invited'); 
+  await db.query(`insert into invitations (email, role, position, token, status) values ('${email}', '${role.name}', '${position.name}', '${token}', 'Pending')`);
   //  sending email
   transport.sendMail(
     mailOptions(email, token, position.name, role.name),
