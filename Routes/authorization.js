@@ -33,6 +33,7 @@ router.route("/").post(async (req, res) => {
       createdAt: user.created_at,
       accessToken,
       tokenExpiry,
+      isAuth: true,
     });
   } catch (error) {
     res.json("User is not found or wrong data");

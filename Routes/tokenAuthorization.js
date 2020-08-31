@@ -27,6 +27,7 @@ router.route("/").post(async (req, res) => {
         createdAt: user.created_at,
         accessToken,
         tokenExpiry,
+        isAuth: true,
       });
     } catch (error) {
       res.json("No token set in cookies!");
