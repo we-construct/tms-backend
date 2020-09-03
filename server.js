@@ -6,6 +6,7 @@ const sendInvitation = require("./Routes/sendInvitation");
 const authorizationRouter = require("./Routes/authorization");
 const tokenAuthorizationRouter = require("./Routes/tokenAuthorization");
 const getAllData = require("./Routes/getAllData");
+const getCurrentUser = require("./Routes/getCurrentUser");
 const actionsWithUser = require("./Routes/actionsWithUser");
 const getPaginatedUsers = require("./Routes/getPaginatedUsers");
 
@@ -17,7 +18,9 @@ require("dotenv").config();
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser())
+
 app.use("/get", getAllData);
+app.use("/user", getCurrentUser);
 app.use("/action", actionsWithUser);
 app.use("/send-invitation", sendInvitation);
 app.use("/accept-initation", acceptInvitation);
