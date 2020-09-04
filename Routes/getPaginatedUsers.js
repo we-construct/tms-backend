@@ -5,7 +5,7 @@ const authenticateAdmin = require("../Middlewares/authenticateAdmin");
 router.route("/").post(authenticateAdmin, async (req, res) => {
   try {
     const pageNumber = req.body.page;
-    const pageLimit = 5;
+    const pageLimit = 8;
     const startIndex = (pageNumber - 1) * pageLimit;
     const count = await db.query("select count(*) from users");
     const totalPages = count[0].count;

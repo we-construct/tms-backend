@@ -12,7 +12,6 @@ router.route("/").post(async (req, res) => {
     const user = await db.one(`select * from users where email = '${email}'`);
     const role = await db.one(`select name from roles where id = '${user.role_id}'`);
     const position = await db.one(`select name from positions where id = '${user.position_id}'`);
-    const status = await db.one(`select name from statuses where id = '${user.status_id}'`);
     
     if (!user) return res.json("User is not found");
 
@@ -27,19 +26,10 @@ router.route("/").post(async (req, res) => {
     db.query(`update users set token = '${accessToken}' where id = ${user.id}`);
     res.json({
       id: user.id,
-      firstName: user.first_name,
-      lastName: user.last_name,
-      phoneNumber: user.phone_number,
-      email: user.email,
-      roleId: user.role_id,
-      role: role.name,
-      statusId: user.status_id,
-      status: status.name,
-      positionId: user.position_id,
-      position: position.name,
-      createdAt: user.created_at,
       accessToken,
       tokenExpiry,
+      role: role.name,
+      position: position.name,
       isAuth: true,
     });
   } catch (error) {

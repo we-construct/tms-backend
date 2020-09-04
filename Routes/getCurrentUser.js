@@ -15,7 +15,7 @@ router.route("/:id").post(authenticateAdmin, async (req, res) => {
     const status = await db.one(
       `select name from statuses where id = '${user.status_id}'`
     );
-
+    
     res.json({
       id: user.id,
       firstName: user.first_name,
