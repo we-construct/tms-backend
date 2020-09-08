@@ -15,7 +15,6 @@ router.route("/:id").post(authenticateAdmin, async (req, res) => {
     const status = await db.one(
       `select name from statuses where id = '${user.status_id}'`
     );
-    
     res.json({
       id: user.id,
       firstName: user.first_name,
@@ -29,7 +28,12 @@ router.route("/:id").post(authenticateAdmin, async (req, res) => {
       positionId: user.position_id,
       position: position.name,
       createdAt: user.created_at,
-      // experience, skills, education...
+      education: user.education,
+      hardSkills: user.hard_skills,
+      softSkills: user.soft_skills,
+      experience: user.experience,
+      languages: user.languages,
+      birthday: user.birthday,
     });
   } catch (error) {
     res.json(error.message);
