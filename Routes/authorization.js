@@ -10,6 +10,9 @@ router.route("/").post(async (req, res) => {
     if (!email || !password) return res.json("Enter all fields");
 
     const user = await db.one(`select * from users where email = '${email}'`);
+    const role = await db.one(`select name from roles where id = '${user.role_id}'`);
+    const position = await db.one(`select name from positions where id = '${user.position_id}'`);
+    
     if (!user) return res.json("User is not found");
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -23,16 +26,10 @@ router.route("/").post(async (req, res) => {
     db.query(`update users set token = '${accessToken}' where id = ${user.id}`);
     res.json({
       id: user.id,
-      firstName: user.first_name,
-      lastName: user.last_name,
-      phoneNumber: user.phone_number,
-      email: user.email,
-      roleId: user.role_id,
-      statusId: user.status_id,
-      positionId: user.position_id,
-      createdAt: user.created_at,
       accessToken,
       tokenExpiry,
+      role: role.name,
+      position: position.name,
       isAuth: true,
     });
   } catch (error) {
