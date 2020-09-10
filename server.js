@@ -10,6 +10,7 @@ const userEditProfile = require("./Routes/userEditProfile");
 const getCurrentUser = require("./Routes/getCurrentUser");
 const actionsWithUser = require("./Routes/actionsWithUser");
 const getPaginatedUsers = require("./Routes/getPaginatedUsers");
+const vacation = require("./Routes/vacations");
 
 // initializing express
 const app = express();
@@ -29,6 +30,7 @@ app.use("/accept-initation", acceptInvitation);
 app.use("/login", authorizationRouter);
 app.use("/token", tokenAuthorizationRouter);
 app.use("/users", getPaginatedUsers);
+app.use("/vacations", vacation);
 
 app.listen(port, () => {
   console.log("Server run on port " + port);
