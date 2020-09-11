@@ -5,10 +5,10 @@ require("dotenv").config();
 
 router.post("/", authenticateUser, async (req, res) => {
   try {
-    const { userId, startDate, returnDate, daysNumber, description } = await req.body;
+    const { userId, startDate, returnDate, daysNumber, description, firstName, lastName } = await req.body;
     await db.query(
-    `insert into vacations (start_date, return_date, days_number, status, description, user_id) values($1, $2, $3, $4, $5, $6)`,
-    [startDate, returnDate, daysNumber, 'Pending', description, userId]
+    `insert into vacations (start_date, return_date, days_number, status, description, user_id, first_name, last_name) values($1, $2, $3, $4, $5, $6, $7, $8)`,
+    [startDate, returnDate, daysNumber, 'Pending', description, userId, firstName, lastName]
   );
   res.json({ success: 'Vacation added' });
   } catch (error) {
