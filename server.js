@@ -8,6 +8,7 @@ const tokenAuthorizationRouter = require("./Routes/tokenAuthorization");
 const getAllData = require("./Routes/getAllData");
 const userEditProfile = require("./Routes/userEditProfile");
 const getCurrentUser = require("./Routes/getCurrentUser");
+const getProfileInfo = require("./Routes/getProfileInfo");
 const actionsWithUser = require("./Routes/actionsWithUser");
 const getPaginatedUsers = require("./Routes/getPaginatedUsers");
 const vacation = require("./Routes/vacations");
@@ -23,6 +24,7 @@ app.use(express.json());
 app.use(cookieParser())
 
 app.use("/get", getAllData);
+app.use("/profile", getProfileInfo);
 app.use("/user", getCurrentUser);
 app.use("/edit-profile", userEditProfile);
 app.use("/action", actionsWithUser);
