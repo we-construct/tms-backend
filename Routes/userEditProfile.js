@@ -14,4 +14,30 @@ router.route("/").post(authenticateUser, async (req, res) => {
   }
 });
 
+router.route("/add-education").post(async (req, res) => {
+  try {
+      const { id, name, faculty, grade, from, to } = req.body;
+      if (name === '' || faculty === '' || grade === '') return res.json('Enter all fields!');
+      await db.query(`
+      insert into education (user_id, name, faculty, grade, from_date, to_date) values (${id}, '${name}', '${faculty}', '${grade}', '${from}', '${to}')
+      `);
+      res.json({message: 'Education added'});
+  } catch (error) {
+    res.json(error.message);
+  }
+});
+
+router.route("/add-experience").post(async (req, res) => {
+  try {
+      const { id, name, company, jobtime, from, to } = req.body;
+      if (name === '' || company === '' || jobtime === '') return res.json('Enter all fields!');
+      await db.query(`
+      insert into experience (user_id, name, company, jobtime, from_date, to_date) values (${id}, '${name}', '${company}', '${jobtime}', '${from}', '${to}')
+      `);
+      res.json({message: 'Experience added'});
+  } catch (error) {
+    res.json(error.message);
+  }
+});
+
 module.exports = router;
