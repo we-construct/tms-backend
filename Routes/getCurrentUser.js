@@ -34,6 +34,7 @@ router.route("/:id").post(authenticateAdmin, async (req, res) => {
       experience: user.experience,
       languages: user.languages,
       birthday: user.birthday,
+      vacationAvailableDays: user.vacation_available_days
     });
   } catch (error) {
     res.json(error.message);
