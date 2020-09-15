@@ -29,6 +29,7 @@ router.route("/:id").post(authenticateAdmin, async (req, res) => {
       position: position.name,
       createdAt: user.created_at,
       birthday: user.birthday,
+      vacationAvailableDays: user.vacation_available_days
     });
   } catch (error) {
     res.json(error.message);
