@@ -28,11 +28,6 @@ router.route("/:id").post(authenticateAdmin, async (req, res) => {
       positionId: user.position_id,
       position: position.name,
       createdAt: user.created_at,
-      education: user.education,
-      hardSkills: user.hard_skills,
-      softSkills: user.soft_skills,
-      experience: user.experience,
-      languages: user.languages,
       birthday: user.birthday,
     });
   } catch (error) {
