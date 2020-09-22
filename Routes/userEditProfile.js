@@ -66,4 +66,94 @@ router.route("/add-softskill").post(async (req, res) => {
   }
 });
 
+router.route("/delete-softskill").post(async (req, res) => {
+  try {
+    const { id, userId } = req.body;
+    if (userId === '') return res.json('Something wrong!');
+    await db.query(`delete from soft_skills where id = '${id}'`);
+    res.json({message: 'SoftSkill deleted'});
+  } catch (error) {
+    res.json(error.message);
+  }
+});
+
+router.route("/delete-hardskill").post(async (req, res) => {
+  try {
+    const { id, userId } = req.body;
+    if (userId === '') return res.json('Something wrong!');
+    await db.query(`delete from hard_skills where id = '${id}'`);
+    res.json({message: 'HardSkill deleted'});
+  } catch (error) {
+    res.json(error.message);
+  }
+});
+
+router.route("/edit-softskill").post(async (req, res) => {
+  try {
+    const { id, userId, name } = req.body;
+    if (userId === '') return res.json('Something wrong!');
+    await db.query(`update soft_skills set name = '${name}' where id = '${id}'`);
+    res.json({message: 'SoftSkill edited'});
+  } catch (error) {
+    res.json(error.message);
+  }
+});
+
+router.route("/edit-hardskill").post(async (req, res) => {
+  try {
+    const { id, userId, name } = req.body;
+    if (userId === '') return res.json('Something wrong!');
+    await db.query(`update hard_skills set name = '${name}' where id = '${id}'`);
+    res.json({message: 'HardSkill edited'});
+  } catch (error) {
+    res.json(error.message);
+  }
+});
+
+router.route("/delete-education").post(async (req, res) => {
+  try {
+    const { id, userId } = req.body;
+    if (userId === '') return res.json('Something wrong!');
+    await db.query(`delete from education where id = '${id}'`);
+    res.json({message: 'Education item deleted'});
+  } catch (error) {
+    res.json(error.message);
+  }
+});
+
+router.route("/edit-education").post(async (req, res) => {
+  try {
+    const { id, userId, name, faculty, grade, from, to } = req.body;
+    console.log(req.body)
+    if (userId === '') return res.json('Something wrong!');
+    await db.query(`update education set name = '${name}', faculty = '${faculty}', grade = '${grade}', from_date = '${from}', to_date = '${to}'  where id = '${id}'`);
+    res.json({message: 'Education item updated'});
+  } catch (error) {
+    res.json(error.message);
+  }
+});
+
+router.route("/edit-experience").post(async (req, res) => {
+  try {
+    const { id, userId, name, company, jobTime, from, to } = req.body;
+    console.log(req.body)
+    if (userId === '') return res.json('Something wrong!');
+    await db.query(`update experience set name = '${name}', company = '${company}', jobtime = '${jobTime}', from_date = '${from}', to_date = '${to}'  where id = '${id}'`);
+    res.json({message: 'Education item updated'});
+  } catch (error) {
+    res.json(error.message);
+  }
+});
+
+router.route("/delete-experience").post(async (req, res) => {
+  try {
+    const { id, userId } = req.body;
+    if (userId === '') return res.json('Something wrong!');
+    await db.query(`delete from experience where id = '${id}'`);
+    res.json({message: 'Experience item deleted'});
+  } catch (error) {
+    res.json(error.message);
+  }
+});
+
 module.exports = router;
