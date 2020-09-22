@@ -1,8 +1,8 @@
 const router = require("express").Router();
-const authenticateAdmin = require("../Middlewares/authenticateAdmin");
+const authenticateUser = require("../Middlewares/authenticateUser");
 const db = require("../Helpers/connectDb");
 
-router.route("/:id").post(authenticateAdmin, async (req, res) => {
+router.route("/:id").post(authenticateUser, async (req, res) => {
   try {
     const { id } = req.params;
     const user = await db.one(`select * from users where id = '${id}'`);
